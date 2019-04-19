@@ -30,6 +30,8 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     threadsafe_queue_init(&qs[1]);
 
     // `PING_PONGS` раз должно произойти следующее:
+    // 0. Создаются два потока: `pinger` и `ponger`
+    //    (независимые от основного потока теста).
     // 1. Поток `pinger` отправляет `qs[0]` потоку `ponger`
     //    указатель на локальную переменную типа `int`.
     // 2. Поток `ponger` увеличивает полученную переменную на
