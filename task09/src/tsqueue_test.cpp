@@ -41,8 +41,8 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     auto pinger = [](void *_qs) -> void * {
         ThreadsafeQueue *qs = static_cast<ThreadsafeQueue *>(_qs);
         // TODO
-        static_cast<void>(qs);
-        static_cast<void>(PING_PONGS);
+        static_cast<void>(qs);  // Используем переменную хоть как-то, чтобы не было предупреждения.
+        static_cast<void>(PING_PONGS);  // Используем переменную хоть как-то, чтобы не было предупреждения.
         return nullptr;
     };
 
