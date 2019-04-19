@@ -29,3 +29,7 @@ script:
 - cargo test --verbose
 - ./target/debug/sudoku < ../tests/03-medium.in
 - popd
+- pushd task09/
+- cmake . && make
+- valgrind --tool=memcheck --leak-check=full ./queue_test
+- popd
