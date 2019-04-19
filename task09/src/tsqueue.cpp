@@ -16,7 +16,7 @@ void threadsafe_queue_push(ThreadsafeQueue *q, void *data) {
     static_cast<void>(data);
 }
 
-void* threadsafe_queue_wait_and_pop(ThreadsafeQueue *q) {
+void *threadsafe_queue_wait_and_pop(ThreadsafeQueue *q) {
     // TODO
     static_cast<void>(q);
     return nullptr;

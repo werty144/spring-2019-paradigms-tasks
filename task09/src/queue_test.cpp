@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
 #include "queue.h"
+#include "doctest.h"
 
 TEST_CASE("Queue inited and destroyed") {
     Queue q;

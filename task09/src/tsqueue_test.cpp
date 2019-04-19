@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
 #include "tsqueue.h"
+#include "doctest.h"
 
 const int ELEMENTS_PER_THREAD = 1000 * 1000;
 const int REPEATS = 3;
@@ -20,7 +20,7 @@ TEST_CASE("ThreadsafeQueue works like Queue in a single thread") {
     threadsafe_queue_push(&q, &b);
     CHECK(threadsafe_queue_wait_and_pop(&q) == &c);
     CHECK(threadsafe_queue_wait_and_pop(&q) == &b);
-    
+
     threadsafe_queue_destroy(&q);
 }
 
@@ -38,8 +38,8 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     //    и что локальная переменная была увеличена.
     const int PING_PONGS = 100;
 
-    auto pinger = [](void *_qs) -> void* {
-        ThreadsafeQueue *qs = static_cast<ThreadsafeQueue*>(_qs);
+    auto pinger = [](void *_qs) -> void * {
+        ThreadsafeQueue *qs = static_cast<ThreadsafeQueue *>(_qs);
         // TODO
         static_cast<void>(qs);
         static_cast<void>(PING_PONGS);
@@ -58,16 +58,16 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     threadsafe_queue_destroy(&qs[0]);
 }
 
-void* producer(void* _q) {
-    ThreadsafeQueue *q = static_cast<ThreadsafeQueue*>(_q);
+void *producer(void *_q) {
+    ThreadsafeQueue *q = static_cast<ThreadsafeQueue *>(_q);
     for (int i = 0; i < ELEMENTS_PER_THREAD; i++) {
         threadsafe_queue_push(q, nullptr);
     }
     return nullptr;
 }
 
-void* consumer(void* _q) {
-    ThreadsafeQueue *q = static_cast<ThreadsafeQueue*>(_q);
+void *consumer(void *_q) {
+    ThreadsafeQueue *q = static_cast<ThreadsafeQueue *>(_q);
     for (int i = 0; i < ELEMENTS_PER_THREAD; i++) {
         REQUIRE(threadsafe_queue_wait_and_pop(q) == nullptr);
     }
@@ -111,7 +111,6 @@ TEST_CASE("ThreadsafeQueue pops from multiple threads") {
 
     threadsafe_queue_destroy(&q);
 }
-
 
 TEST_CASE("ThreadsafeQueue pushes and pops from multiple threads") {
     ThreadsafeQueue q;

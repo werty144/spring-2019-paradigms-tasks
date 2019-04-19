@@ -1,11 +1,11 @@
+#include "queue.h"
 #include <assert.h>
 #include <stdlib.h>
-#include "queue.h"
 
 /**
  * Очередь реализована как односвязный список.
- * Начало списка соответствует концу очереди, т.е. элементы добавляются в начало,
- * а удаляются из конца.
+ * Начало списка соответствует концу очереди, т.е. элементы добавляются в
+ * начало, а удаляются из конца.
  */
 struct QueueNode {
     void *data;
@@ -26,7 +26,7 @@ bool queue_empty(Queue *q) {
 }
 
 void queue_push(Queue *q, void *data) {
-    QueueNode *node = static_cast<QueueNode*>(malloc(sizeof(QueueNode)));
+    QueueNode *node = static_cast<QueueNode *>(malloc(sizeof(QueueNode)));
     node->data = data;
     node->next = nullptr;
     if (q->last) {
@@ -37,10 +37,10 @@ void queue_push(Queue *q, void *data) {
     q->last = node;
 }
 
-void* queue_pop(Queue *q) {
+void *queue_pop(Queue *q) {
     QueueNode *node = q->head;
     assert(node);
-    void* data = node->data;
+    void *data = node->data;
     q->head = node->next;
     if (!q->head) {
         q->last = nullptr;

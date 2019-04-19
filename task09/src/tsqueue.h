@@ -30,7 +30,8 @@ void threadsafe_queue_init(ThreadsafeQueue *q);
  * поведение неопределено, так как в ней ещё могут лежат
  * произвольные ресурсы, которые очередь не в состоянии освободить.
  *
- * После удаления все операции с очередью, кроме `threadsafe_queue_init`, неопределены.
+ * После удаления все операции с очередью, кроме `threadsafe_queue_init`,
+ * неопределены.
  */
 void threadsafe_queue_destroy(ThreadsafeQueue *q);
 
@@ -46,8 +47,7 @@ void threadsafe_queue_push(ThreadsafeQueue *q, void *data);
  * пока элемент не будет добавлен при помощи `threadsafe_queue_push()`.
  * Эта операция может безопасно вызываться из нескольких потоков одновременно.
  */
-void* threadsafe_queue_wait_and_pop(ThreadsafeQueue *q);
-
+void *threadsafe_queue_wait_and_pop(ThreadsafeQueue *q);
 }
 
 #endif

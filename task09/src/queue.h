@@ -45,8 +45,7 @@ void queue_push(Queue *q, void *data);
  * Удаляет из очереди очередной элемент и возвращает его значение.
  * Если очередь пуста, поведение неопределено.
  */
-void* queue_pop(Queue *q);
-
+void *queue_pop(Queue *q);
 }
 
 #endif
