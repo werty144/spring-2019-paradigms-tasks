@@ -41,6 +41,8 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     auto pinger = [](void *_qs) -> void* {
         ThreadsafeQueue *qs = static_cast<ThreadsafeQueue*>(_qs);
         // TODO
+        static_cast<void>(qs);
+        static_cast<void>(PING_PONGS);
         return nullptr;
     };
 
@@ -49,6 +51,7 @@ TEST_CASE("ThreadsafeQueue multithreaded ping-pong") {
     pthread_t t1, t2;
     REQUIRE(pthread_create(&t1, nullptr, pinger, qs) == 0);
     // TODO
+    static_cast<void>(t2);
     REQUIRE(pthread_join(t1, nullptr) == 0);
 
     threadsafe_queue_destroy(&qs[1]);
