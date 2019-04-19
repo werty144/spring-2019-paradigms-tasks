@@ -34,19 +34,14 @@ getHealth (_, _, myHealth) = myHealth
 -- Аналогичным образом напишите сеттеры, функции, которые устанавливают
 -- состояние робота
 
-data Undefined = Undefined
-
-setName :: Undefined
+setName :: Robot -> Name -> Robot
 setName = undefined
 
-setAttack :: Undefined
+setAttack :: Robot -> Attack -> Robot
 setAttack = undefined
 
-setHealth :: Undefined
+setHealth :: Robot -> Health -> Robot
 setHealth = undefined
-
--- Вместо Undefined напишите типы этих функций
--- Что они принимают на вход и что возвращают?
 
 -- Задание 2.
 -- Напишите функцию, которая ведет себя как __str__
@@ -75,7 +70,7 @@ fight :: Robot -> Robot -> Robot
 fight attacker defender = undefined
 
 -- Затем напишите функцию, которая бы моделировала три раунда схватки между
--- двумя роботами и возвращала бы победителя. Победителем считайте того робота, 
+-- двумя роботами и возвращала бы победителя. Победителем считайте того робота,
 -- у которого уровень жизни больше либо равен уровня жизни другого робота
 threeRoundFight :: Robot -> Robot -> Robot
 threeRoundFight attacker defender = undefined

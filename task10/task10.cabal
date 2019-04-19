@@ -6,11 +6,10 @@ synopsis:            This is hometask 10 for Programming Languages and Paradigms
 author:              edgarzhavoronkov
 maintainer:          edzhavoronkov@gmail.com
 build-type:          Simple
-extra-source-files:  CHANGELOG.md
 
 library
     exposed-modules:     Part1, Part2
-    build-depends:       base >=4.11 && <4.12
+    build-depends:       base >=4.11
     ghc-options:         -Wall -Werror -Wextra
     hs-source-dirs:      src
     default-language:    Haskell2010
@@ -21,7 +20,7 @@ test-suite test
     hs-source-dirs:      test
     main-is:             test.hs
     build-depends:
-        base >=4.11 && <4.12
+        base >=4.11
         , tasty >= 0.8
         , tasty-hunit >= 0.10
         , task10
