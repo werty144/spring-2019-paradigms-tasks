@@ -27,6 +27,7 @@ script:
 - cargo fmt --all -- --check
 - cargo build --verbose
 - cargo test --verbose
+- test -z "$(cargo test --verbose 2>&1 | grep panic)"
 - ./target/debug/sudoku < ../tests/03-medium.in
 - popd
 - pushd task09/
