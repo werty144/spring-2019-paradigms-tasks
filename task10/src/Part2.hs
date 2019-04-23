@@ -34,13 +34,13 @@ getHealth (_, _, myHealth) = myHealth
 -- Аналогичным образом напишите сеттеры, функции, которые устанавливают
 -- состояние робота
 
-setName :: Robot -> Name -> Robot
+setName :: Name -> Robot -> Robot
 setName = undefined
 
-setAttack :: Robot -> Attack -> Robot
+setAttack :: Attack -> Robot -> Robot
 setAttack = undefined
 
-setHealth :: Robot -> Health -> Robot
+setHealth :: Health -> Robot -> Robot
 setHealth = undefined
 
 -- Задание 2.
