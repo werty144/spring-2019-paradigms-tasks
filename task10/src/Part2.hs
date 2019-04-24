@@ -57,11 +57,9 @@ printRobot = undefined
 -- Напишем функцию damage которая причиняет роботу урон
 damage :: Robot -> Int -> Robot
 damage victim amount = let
-        name = getName victim
-        attack = getAttack victim
         health = getHealth victim
         newHealth = health - amount
-    in robot name attack newHealth
+    in setHealth newHealth victim
 
 -- Задание 3.
 -- Используя функцию damage, напишите функцию, которая моделирует один раунд схватки между
