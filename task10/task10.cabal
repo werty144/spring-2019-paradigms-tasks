@@ -8,7 +8,7 @@ maintainer:          edzhavoronkov@gmail.com
 build-type:          Simple
 
 library
-    exposed-modules:     Part1, Part2
+    exposed-modules:     Basics, Robots
     build-depends:       base >=4.11
     ghc-options:         -Wall -Werror -Wextra
     hs-source-dirs:      src
@@ -23,4 +23,6 @@ test-suite test
         base >=4.11
         , tasty >= 0.8
         , tasty-hunit >= 0.10
+        , hspec >=2 && <2.8
+        , tasty-hspec >= 1.1.5
         , task10

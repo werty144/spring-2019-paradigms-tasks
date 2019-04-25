@@ -9,9 +9,9 @@ import Part2
 
 main = defaultMain tests
 
-tests = testGroup "All tests" [partOneTests, partTwoTests]
+tests = testGroup "All tests" [basicsTests, robotsTests]
 
-partOneTests = testGroup "Unit tests for Part1"
+partOneTests = testGroup "Unit tests for Basics part"
     [testCase "head' works on non-empty list" $
         head' [1,2,3] @?= 1
 
@@ -37,4 +37,9 @@ partOneTests = testGroup "Unit tests for Part1"
         quickSort' [5,2,3,4,1] @?= [1..5]
     ]
 
-partTwoTests = testGroup "Unit tests for Part2" []
+partTwoTests = let 
+    walter = robot "Walter" 50 50
+    testGroup "Unit tests for Robots part" 
+    [testCase "Meet Walter!" $
+        getName walter @?= "Walter"
+    ]
