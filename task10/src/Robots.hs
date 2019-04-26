@@ -104,7 +104,7 @@ neueRobot = undefined
 neueRobotAttak :: Robot -> Robot
 neueRobotAttak = undefined
 
--- Наконец, используя filter определите, кто из роботов, которых вы положили в список roboter
--- выживет, после того, как neueRobot сразится с каждым из них по одному раунду
+-- Наконец, используя filter определите, кто из роботов, которых вы положили в список roboter,
+-- выживет, если neueRobot сразится с ним в одном раунде.
 survivors :: [Robot]
 survivors = undefined
