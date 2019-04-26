@@ -21,7 +21,7 @@ testsBasics = testGroup "Unit tests for Basics tasks"
         drop' 1 [1,2,3] @?= [2,3]
 
     , testCase "filter' selects only even numbers from 0 to 10" $
-        filter' even [0..10] @?= [2,4..10]
+        filter' even [0..10] @?= [0,2..10]
 
     , testCase "foldl'' can be used for finding sum of elements" $
         foldl'' (+) 0 [1,2,3] @?= 6
