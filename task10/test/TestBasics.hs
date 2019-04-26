@@ -4,7 +4,7 @@ import Test.Tasty.HUnit
 import Basics
 
 main :: IO ()
-main = defaultMain $ testsBasics
+main = defaultMain testsBasics
 
 testsBasics :: TestTree
 testsBasics = testGroup "Unit tests for Basics tasks"

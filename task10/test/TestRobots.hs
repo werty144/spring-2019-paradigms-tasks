@@ -4,7 +4,7 @@ import Test.Tasty.HUnit
 import Robots
 
 main :: IO ()
-main = defaultMain $ testsRobots
+main = defaultMain testsRobots
 
 testsRobots :: TestTree
 testsRobots = let
