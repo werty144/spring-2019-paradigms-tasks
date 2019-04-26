@@ -10,7 +10,7 @@ build-type:          Simple
 library
     exposed-modules:     Basics, Robots
     build-depends:       base >=4.11
-    ghc-options:
+    ghc-options:         -Wall -Werror -Wextra -fno-warn-incomplete-patterns
     hs-source-dirs:      src
     default-language:    Haskell2010
 
@@ -18,7 +18,7 @@ test-suite test
     default-language:    Haskell2010
     type:                exitcode-stdio-1.0
     hs-source-dirs:      test
-    main-is:             Test.hs
+    main-is:             test.hs
     other-modules:       TestBasics, TestRobots
     build-depends:
         base >=4.11
