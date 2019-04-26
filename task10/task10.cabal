@@ -14,12 +14,24 @@ library
     hs-source-dirs:      src
     default-language:    Haskell2010
 
-test-suite test
+test-suite basics
     default-language:    Haskell2010
     type:                exitcode-stdio-1.0
     hs-source-dirs:      test
-    main-is:             test.hs
-    other-modules:       TestBasics, TestRobots
+    main-is:             TestBasics.hs
+    build-depends:
+        base >=4.11
+        , tasty >= 0.8
+        , tasty-hunit >= 0.10
+        , hspec >=2 && <2.8
+        , tasty-hspec >= 1.1.5
+        , task10
+
+test-suite robots
+    default-language:    Haskell2010
+    type:                exitcode-stdio-1.0
+    hs-source-dirs:      test
+    main-is:             TestRobots.hs
     build-depends:
         base >=4.11
         , tasty >= 0.8

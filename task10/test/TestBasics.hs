@@ -1,9 +1,10 @@
-module TestBasics where
-
 import Test.Tasty
 import Test.Tasty.HUnit
 
 import Basics
+
+main :: IO ()
+main = defaultMain $ testsBasics
 
 testsBasics :: TestTree
 testsBasics = testGroup "Unit tests for Basics tasks"
