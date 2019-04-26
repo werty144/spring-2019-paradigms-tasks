@@ -210,6 +210,21 @@ fn test_contradictory() {
         ])
         .contradictory()
     );
+    assert_eq!(
+        true,
+        Field([
+            [Digit(1), Digit(1), Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+            [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+        ])
+            .contradictory()
+    );
 }
 
 /// Реализация типажа `fmt::Debug` для `Field`.

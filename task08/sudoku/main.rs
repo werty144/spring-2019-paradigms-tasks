@@ -177,7 +177,7 @@ fn spawn_tasks(f: &mut Field, pool: &ThreadPool, sender: &Sender<Option<Field>>,
             sender.send(find_solution(&mut f)).unwrap_or(());
         });
     } else {
-        try_extend_field(
+         try_extend_field(
             f,
             |f| {
                 sender.send(Some(f.clone())).unwrap_or(());
@@ -199,7 +199,9 @@ fn find_solution_parallel(mut f: Field) -> Option<Field> {
     let mut iterator = receiver.into_iter();
     let pool = ThreadPool::new(8);
     spawn_tasks(&mut f, &pool, &sender, SPAWN_DEPTH);
-    iterator.find_map(|x| x)
+    let _send_res = sender.send(None);
+    drop(sender);
+    iterator.find_map(|x|  x)
 }
 
 /// Юнит-тест, проверяющий, что `find_solution()` находит лексикографически минимальное решение на пустом поле.
