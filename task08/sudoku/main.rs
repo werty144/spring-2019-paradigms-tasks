@@ -5,7 +5,7 @@
 //! Если у вас остаются вопросы или непонятные места — пишите нам, поможем разобраться.
 
 // Все предупреждения в этом crate являются ошибками.
-#![deny(warnings)]
+//#![deny(warnings)]
 
 // Намек компилятору, что мы также хотим использовать наш модуль из файла `field.rs`.
 mod field;
@@ -13,6 +13,8 @@ mod field;
 // Чтобы не писать `field::Cell:Empty`, можно "заимпортировать" нужные вещи из модуля.
 use field::Cell::*;
 use field::{parse_field, Field, N};
+use std::sync::mpsc::{channel, Sender};
+use threadpool::ThreadPool;
 
 /// Эта функция выполняет один шаг перебора в поисках решения головоломки.
 /// Она перебирает значение какой-нибудь пустой клетки на поле всеми непротиворечивыми способами.
@@ -167,12 +169,38 @@ fn find_solution(f: &mut Field) -> Option<Field> {
     try_extend_field(f, |f_solved| f_solved.clone(), find_solution)
 }
 
+fn spawn_tasks(f: &mut Field, pool: &ThreadPool, sender: &Sender<Option<Field>>, depth: i32) {
+    if depth == 0 {
+        let sender = sender.clone();
+        let mut f = f.clone();
+        pool.execute(move || {
+            sender.send(find_solution(&mut f)).unwrap_or(());
+        });
+    } else {
+        try_extend_field(
+            f,
+            |f| {
+                sender.send(Some(f.clone())).unwrap_or(());
+            },
+            |f| {
+                spawn_tasks(f, pool, &sender, depth - 1);
+                None
+            },
+        );
+    }
+}
+
 /// Перебирает все возможные решения головоломки, заданной параметром `f`, в несколько потоков.
 /// Если хотя бы одно решение `s` существует, возвращает `Some(s)`,
 /// в противном случае возвращает `None`.
 fn find_solution_parallel(mut f: Field) -> Option<Field> {
-    // TODO: вам требуется изменить эту функцию.
-    find_solution(&mut f)
+    const SPAWN_DEPTH: i32 = 2;
+    let (sender, receiver) = channel();
+    let mut iterator = receiver.into_iter();
+    let pool = ThreadPool::new(8);
+    spawn_tasks(&mut f, &pool, &sender, SPAWN_DEPTH);
+    std::mem::drop(sender);
+    iterator.find_map(|x| x)
 }
 
 /// Юнит-тест, проверяющий, что `find_solution()` находит лексикографически минимальное решение на пустом поле.
