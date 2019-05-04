@@ -24,7 +24,7 @@ void *threadsafe_queue_wait_and_pop(ThreadsafeQueue *q) {
     while (queue_empty(&(q->q))) {
         pthread_cond_wait(&(q->tsq_empty), &(q->mutex));
     }
-    void* ret = queue_pop(&(q->q));
+    void *ret = queue_pop(&(q->q));
     pthread_mutex_unlock(&(q->mutex));
     return ret;
 }
