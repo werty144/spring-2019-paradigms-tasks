@@ -5,6 +5,7 @@ authors = ["Anton144 <anton-paramonov2000@yandex.ru>"]
 edition = "2018"
 
 [dependencies]
+
 threadpool = "1.7.1"
 [[bin]]
 name = "sudoku"
