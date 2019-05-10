@@ -183,7 +183,7 @@ fn spawn_tasks(f: &mut Field, pool: &ThreadPool, sender: &Sender<Option<Field>>,
                 sender.send(Some(f.clone())).unwrap_or(());
             },
             |f| {
-                spawn_tasks(f, pool, &sender, depth - 1);
+                spawn_tasks(f, pool, sender, depth - 1);
                 None
             },
         );
