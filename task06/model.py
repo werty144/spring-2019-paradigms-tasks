@@ -7,12 +7,12 @@ class Scope:
         self.dict = {}
 
     def __getitem__(self, key):
-        if self.dict.get(key):
+        if key in self.dict:
             return self.dict[key]
 
-        if self.parent is not None:
+        if self.parent:
             return self.parent[key]
-        raise TypeError(key)
+        raise KeyError(key)
 
     def __setitem__(self, key, value):
         self.dict[key] = value
@@ -25,6 +25,7 @@ class ASTNode(abc.ABC):
         Запускает вычисление текущего узла синтаксического дерева
         в заданной области видимости и возвращает результат вычисления.
         """
+
     @abc.abstractmethod
     def accept(self, visitor):
         pass
@@ -78,9 +79,10 @@ class Number(ASTNode):
     быть можно положить в словарь в качестве ключа (см. специальные методы
     __eq__, __ne__, __hash__ — требуется реализовать две из них).
     """
+
     def __init__(self, value):
         if type(value) != int:
-            raise KeyError(value)
+            raise TypeError(value)
         self.value = int(value)
 
     def __eq__(self, other):
@@ -105,6 +107,7 @@ class Function(ASTNode):
     Список имен аргументов - список имен формальных параметров функции.
     Аналогично Number, метод evaluate должен возвращать self.
     """
+
     def __init__(self, args, body):
         self.args = args
         self.body = body
@@ -124,6 +127,7 @@ class FunctionDefinition(ASTNode):
     обновление текущего Scope,  т.е. в него добавляется новое значение типа
     Function под заданным именем, а возвращать evaluate должен саму функцию.
     """
+
     def __init__(self, name, function):
         self.name = name
         self.function = function
@@ -149,6 +153,7 @@ class Conditional(ASTNode):
     Если соответствующий список пуст или равен None, то возвращаемое значение
     остается на ваше усмотрение.
     """
+
     def __init__(self, condition, if_true, if_false=None):
         self.condition = condition
         self.if_true = if_true
@@ -156,13 +161,10 @@ class Conditional(ASTNode):
 
     def evaluate(self, scope):
         condition = self.condition.evaluate(scope)
+        exprs = self.if_true if condition.value else self.if_false
         rv = Number(0)
-        if condition.value and self.if_true:
-            for expr in self.if_true:
-                rv = expr.evaluate(scope)
-        elif self.if_false:
-            for expr in self.if_false:
-                rv = expr.evaluate(scope)
+        for expr in exprs or ():
+            rv = expr.evaluate(scope)
         return rv
 
     def accept(self, visitor):
@@ -180,6 +182,7 @@ class Print(ASTNode):
     Возвращаемое значение метода evаluate - объект типа Number, который был
     выведен.
     """
+
     def __init__(self, expr):
         self.expr = expr
 
@@ -202,6 +205,7 @@ class Read(ASTNode):
     Каждое входное число располагается на отдельной строке (никаких пустых
     строк и лишних символов не будет).
     """
+
     def __init__(self, name):
         self.name = name
 
@@ -234,6 +238,7 @@ class FunctionCall(ASTNode):
     метода evaluate. Если результат вычисления последнего выражения
     неопределён, то возвращаемое значение остаётся на ваше усмотрение.
     """
+
     def __init__(self, fun_expr, args):
         self.fun_expr = fun_expr
         self.args = args
@@ -244,7 +249,7 @@ class FunctionCall(ASTNode):
 
         call_scope = Scope(scope)
 
-        for (func_arg, pos_arg) in zip(function.args, pos_args):
+        for func_arg, pos_arg in zip(function.args, pos_args):
             call_scope[func_arg] = pos_arg.evaluate(scope)
 
         rv = Number(0)
@@ -262,6 +267,7 @@ class Reference(ASTNode):
     Метод evaluate должен найти в scope объект с именем name и вернуть его
     (см. подробнее про класс Scope).
     """
+
     def __init__(self, name):
         self.name = name
 
@@ -333,6 +339,7 @@ class UnaryOperation(ASTNode):
     Как и для BinaryOperation, Number, хранящий 0, считаем за False, а все
     остальные за True.
     """
+
     def __init__(self, op, expr):
         self.op = op
         self.expr = expr

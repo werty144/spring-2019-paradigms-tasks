@@ -14,7 +14,17 @@ class PrettyPrinter(ASTNodeVisitor):
     def string_with_indentation(self, s):
         return '\t' * self.indentation_level + s
 
-    def pretty_code(self, program):
+    def print_code_block(self, statements):
+        self.indentation_level += 1
+        s = ''
+        for statement in statements:
+            s += self.string_with_indentation(statement.accept(self))
+            s = place_semicolon_ifneeded(s)
+            s += '\n'
+        self.indentation_level -= 1
+        return s
+
+    def prettify_code(self, program):
         s = program.accept(self)
         s = place_semicolon_ifneeded(s)
         return s
@@ -30,31 +40,18 @@ class PrettyPrinter(ASTNodeVisitor):
         s = "def " + node.name + '('
         s += ', '.join(function.args)
         s += ") {\n"
-        self.indentation_level += 1
-        for statement in function.body:
-            s += self.string_with_indentation(statement.accept(self)) + '\n'
-        s += "}"
-        self.indentation_level -= 1
+        s += self.print_code_block(function.body)
+        s += '}'
         return s
 
     def visit_conditional(self, node):
         s = "if (" + node.condition.accept(self) + ") {\n"
-        self.indentation_level += 1
         if node.if_true:
-            for command in node.if_true:
-                s += self.string_with_indentation(command.accept(self))
-                s = place_semicolon_ifneeded(s)
-                s += '\n'
-        self.indentation_level -= 1
+            s += self.print_code_block(node.if_true)
         s += self.string_with_indentation('}')
         if node.if_false:
             s += " else {\n"
-            self.indentation_level += 1
-            for command in node.if_false:
-                s += self.string_with_indentation(command.accept(self))
-                s = place_semicolon_ifneeded(s)
-                s += '\n'
-            self.indentation_level -= 1
+            s += self.print_code_block(node.if_false)
             s += self.string_with_indentation('}')
         return s
 
@@ -81,5 +78,5 @@ class PrettyPrinter(ASTNodeVisitor):
 
 def pretty_print(program):
     printer = PrettyPrinter()
-    s = printer.pretty_code(program)
+    s = printer.prettify_code(program)
     print(s)

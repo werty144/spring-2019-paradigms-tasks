@@ -35,7 +35,7 @@ def test_exception():
     a = object()
     scope = Scope()
     scope['v epohu'] = a
-    with pytest.raises(TypeError):
+    with pytest.raises(KeyError):
         ans = scope['sversheniy']
 
 
@@ -126,7 +126,7 @@ def test_bin_operations():
 
 
 def test_true_num():
-    with pytest.raises(KeyError):
+    with pytest.raises(TypeError):
         a = Number(True)
 
 
