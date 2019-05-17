@@ -8,8 +8,11 @@ def place_semicolon_ifneeded(s):
 
 
 class PrettyPrinter(ASTNodeVisitor):
-    def __init__(self, tabs=0):
-        self.tabs = tabs
+    def __init__(self, indentation_level=0):
+        self.indentation_level = indentation_level
+
+    def string_with_indentation(self, s):
+        return '\t' * self.indentation_level + s
 
     def pretty_code(self, program):
         s = program.accept(self)
@@ -27,32 +30,32 @@ class PrettyPrinter(ASTNodeVisitor):
         s = "def " + node.name + '('
         s += ', '.join(function.args)
         s += ") {\n"
-        self.tabs += 1
+        self.indentation_level += 1
         for statement in function.body:
-            s += '  ' * self.tabs + statement.accept(self) + '\n'
+            s += self.string_with_indentation(statement.accept(self)) + '\n'
         s += "}"
-        self.tabs -= 1
+        self.indentation_level -= 1
         return s
 
     def visit_conditional(self, node):
         s = "if (" + node.condition.accept(self) + ") {\n"
-        self.tabs += 1
+        self.indentation_level += 1
         if node.if_true:
             for command in node.if_true:
-                s += '  ' * self.tabs + command.accept(self)
+                s += self.string_with_indentation(command.accept(self))
                 s = place_semicolon_ifneeded(s)
                 s += '\n'
-        self.tabs -= 1
-        s += '  ' * self.tabs + '}'
+        self.indentation_level -= 1
+        s += self.string_with_indentation('}')
         if node.if_false:
             s += " else {\n"
-            self.tabs += 1
+            self.indentation_level += 1
             for command in node.if_false:
-                s += '  ' * self.tabs + command.accept(self)
+                s += self.string_with_indentation(command.accept(self))
                 s = place_semicolon_ifneeded(s)
                 s += '\n'
-            self.tabs -= 1
-            s += '  ' * self.tabs + '}'
+            self.indentation_level -= 1
+            s += self.string_with_indentation('}')
         return s
 
     def visit_print(self, node):
@@ -63,7 +66,7 @@ class PrettyPrinter(ASTNodeVisitor):
 
     def visit_binary_operation(self, node):
         return '(' + node.lhs.accept(self) + ") " + \
-            node.op + " (" + node.rhs.accept(self) + ")"
+               node.op + " (" + node.rhs.accept(self) + ")"
 
     def visit_unary_operation(self, node):
         return '(' + node.op + '(' + node.expr.accept(self) + "))"
@@ -77,28 +80,6 @@ class PrettyPrinter(ASTNodeVisitor):
 
 
 def pretty_print(program):
-    pretty = PrettyPrinter()
-    s = pretty.pretty_code(program)
+    printer = PrettyPrinter()
+    s = printer.pretty_code(program)
     print(s)
-
-
-def main():
-    pretty_print(FunctionDefinition('main', Function(['arg1'], [
-        Read('x'),
-        Print(Reference('x')),
-        Conditional(
-            BinaryOperation(Number(2), '==', Number(3)),
-            [
-                Conditional(Number(1), [], [])
-            ],
-            [
-                FunctionCall(Reference('exit'), [
-                    UnaryOperation('-', Reference('arg1'))
-                ])
-            ],
-        ),
-    ])))
-
-
-if __name__ == '__main__':
-    main()

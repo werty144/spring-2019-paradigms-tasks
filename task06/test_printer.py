@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pytest
 from printer import *
 
@@ -78,14 +79,14 @@ def test_all(capsys):
     ])))
     assert capsys.readouterr().out == \
         'def main(arg1) {\n' + \
-        '  read x;\n' + \
-        '  print x;\n' + \
-        '  if ((2) == (3)) {\n' + \
-        '    if (1) {\n' + \
-        '    }\n' + \
-        '  } else {\n' + \
-        '    exit((-(arg1)));\n' + \
-        '  }\n' + \
+        '\tread x;\n' + \
+        '\tprint x;\n' + \
+        '\tif ((2) == (3)) {\n' + \
+        '\t\tif (1) {\n' + \
+        '\t\t}\n' + \
+        '\t} else {\n' + \
+        '\t\texit((-(arg1)));\n' + \
+        '\t}\n' + \
         '}\n'
 
 

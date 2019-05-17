@@ -4,18 +4,18 @@ import abc
 class Scope:
     def __init__(self, parent=None):
         self.parent = parent
+        self.dict = {}
 
     def __getitem__(self, key):
-        if self.__dict__.get(key):
-            return self.__dict__[key]
+        if self.dict.get(key):
+            return self.dict[key]
 
         if self.parent is not None:
             return self.parent[key]
-
-        raise KeyError(key)
+        raise TypeError(key)
 
     def __setitem__(self, key, value):
-        self.__dict__[key] = value
+        self.dict[key] = value
 
 
 class ASTNode(abc.ABC):
@@ -207,7 +207,7 @@ class Read(ASTNode):
 
     def evaluate(self, scope):
         value = int(input())
-        scope[self.name] = value
+        scope[self.name] = Number(value)
         return Number(value)
 
     def accept(self, visitor):
@@ -240,7 +240,7 @@ class FunctionCall(ASTNode):
 
     def evaluate(self, scope):
         function = self.fun_expr.evaluate(scope)
-        pos_args = map(lambda x: x.ecaluate(scope), self.args)
+        pos_args = map(lambda x: x.evaluate(scope), self.args)
 
         call_scope = Scope(scope)
 
@@ -310,7 +310,8 @@ class BinaryOperation(ASTNode):
             '<=': lambda a, b: a <= b,
             '>=': lambda a, b: a >= b,
             '&&': lambda a, b: a and b,
-            '||': lambda a, b: a or b
+            '||': lambda a, b: a or b,
+            '//': lambda a, b: a // b
         }[op]
 
     def evaluate(self, scope):
