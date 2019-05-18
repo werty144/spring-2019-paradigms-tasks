@@ -56,8 +56,8 @@ def test_un_operation():
 def test_function_call():
     printer = PrettyPrinter()
     actual = printer.prettify_code(FunctionCall(Reference('foo'),
-                                              [Number(1),
-                                               Number(2), Number(3)]))
+                                                [Number(1),
+                                                 Number(2), Number(3)]))
     assert actual == 'foo(1, 2, 3);'
 
 
