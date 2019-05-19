@@ -61,6 +61,23 @@ def test_function_call():
     assert actual == 'foo(1, 2, 3);'
 
 
+def test_func_def_in_func_def(capsys):
+    pretty_print(FunctionDefinition('foo', Function(['arg1'], [
+        BinaryOperation(Reference('arg1'), '=', Number(42)),
+        FunctionDefinition('bar', Function(['arg2'], [
+            BinaryOperation(Reference('arg2'), '=', Number(4224))
+        ]))
+    ]))
+    )
+    assert capsys.readouterr().out == \
+        'def foo(arg1) {\n' + \
+        '\t(arg1) = (42);\n' + \
+        '\tdef bar(arg2) {\n' + \
+        '\t\t(arg2) = (4224);\n' + \
+        '\t}\n' + \
+        '}\n'
+
+
 def test_all(capsys):
     pretty_print(FunctionDefinition('main', Function(['arg1'], [
         Read('x'),

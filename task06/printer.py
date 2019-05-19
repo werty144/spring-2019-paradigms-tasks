@@ -37,42 +37,42 @@ class PrettyPrinter(ASTNodeVisitor):
 
     def visit_function_definition(self, node):
         function = node.function
-        s = "def " + node.name + '('
+        s = 'def ' + node.name + '('
         s += ', '.join(function.args)
-        s += ") {\n"
+        s += ') {\n'
         s += self.print_code_block(function.body)
-        s += '}'
+        s += self.string_with_indentation('}')
         return s
 
     def visit_conditional(self, node):
-        s = "if (" + node.condition.accept(self) + ") {\n"
+        s = 'if (' + node.condition.accept(self) + ') {\n'
         if node.if_true:
             s += self.print_code_block(node.if_true)
         s += self.string_with_indentation('}')
         if node.if_false:
-            s += " else {\n"
+            s += ' else {\n'
             s += self.print_code_block(node.if_false)
             s += self.string_with_indentation('}')
         return s
 
     def visit_print(self, node):
-        return "print " + node.expr.accept(self) + ";"
+        return 'print ' + node.expr.accept(self) + ';'
 
     def visit_read(self, node):
-        return "read " + node.name + ";"
+        return 'read ' + node.name + ';'
 
     def visit_binary_operation(self, node):
-        return '(' + node.lhs.accept(self) + ") " + \
-               node.op + " (" + node.rhs.accept(self) + ")"
+        return '(' + node.lhs.accept(self) + ') ' + \
+               node.op + ' (' + node.rhs.accept(self) + ')'
 
     def visit_unary_operation(self, node):
-        return '(' + node.op + '(' + node.expr.accept(self) + "))"
+        return '(' + node.op + '(' + node.expr.accept(self) + '))'
 
     def visit_function_call(self, node):
         expr = node.fun_expr.accept(self)
         s = expr + '('
         s += ', '.join(map(lambda x: x.accept(self), node.args))
-        s += ")"
+        s += ')'
         return s
 
 
