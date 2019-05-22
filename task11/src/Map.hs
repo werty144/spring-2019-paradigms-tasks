@@ -50,7 +50,7 @@ class Map t where
     delete = alter $ const Nothing
 
     adjust :: Ord k => (a -> a) -> k -> t k a -> t k a
-    adjust f = alter $ fmap f
+    adjust = alter . fmap
 
     adjustWithKey :: Ord k => (k -> a -> a) -> k -> t k a -> t k a
     adjustWithKey f k = adjust (f k) k
@@ -72,6 +72,6 @@ class Map t where
     notMember k = not . member k
 
     null :: t k a -> Bool
-    null curmap = size curmap == 0
+    null curmap = (0 ==) (size curmap)
 
     size :: t k a -> Int
