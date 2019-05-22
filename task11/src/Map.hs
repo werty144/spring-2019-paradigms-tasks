@@ -72,6 +72,6 @@ class Map t where
     notMember k = not . member k
 
     null :: t k a -> Bool
-    null curmap = (0 ==) (size curmap)
+    null = (== 0) . size
 
     size :: t k a -> Int
